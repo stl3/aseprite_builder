@@ -24,23 +24,20 @@ jobs:
     - name: Get latest version info
       id: version_info
       run: |
-        data=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest)
+        data=$(curl -sL "https://api.github.com/repos/aseprite/aseprite/releases?per_page=100" | jq '[.[] | select(.prerelease == false and .draft == false)] | .[0]')
         LATEST_TAG=$(echo "${data}" | jq -r '.tag_name')
         DOWNLOAD_URL=$(echo "${data}" | jq -r '.assets[].browser_download_url')
         VERSION_INFO=$(echo "${data}" | jq -r '.body')
         
         echo "${LATEST_TAG}" > ${LATEST_TAG}.txt
-        # echo "latest_tag=${LATEST_TAG}" >> $GITHUB_OUTPUT
-        # echo "download_url=${DOWNLOAD_URL}" >> $GITHUB_OUTPUT
-        # echo "version_info=${VERSION_INFO}" >> $GITHUB_OUTPUT
-        
         echo "latest_tag=${LATEST_TAG}" >> $GITHUB_OUTPUT
         echo "download_url=${DOWNLOAD_URL}" >> $GITHUB_OUTPUT
-
+    
         # Multiline output for version_info
         echo "version_info<<EOF" >> $GITHUB_OUTPUT
         echo "${VERSION_INFO}" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
+
       
     - name: Load version from cache
       id: version_check
@@ -98,7 +95,8 @@ jobs:
           # curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-${{ runner.os }}-Release-X64.zip
           # https://github.com/aseprite/skia/releases/tag/m102-861e4743af
           # https://github.com/aseprite/skia/releases/tag/m124-08a5439a6b
-          curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-${{ runner.os }}-Release-X64.zip
+          
+          curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-${{ runner.os }}-Release-X64.zip
           unzip Skia-${{ runner.os }}-Release-X64.zip -d skia
       - name: Download Aseprite release
         run: |          
