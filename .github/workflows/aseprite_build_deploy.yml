@@ -26,7 +26,10 @@ jobs:
       run: |
         data=$(curl -sL "https://api.github.com/repos/aseprite/aseprite/releases?per_page=100" | jq '[.[] | select(.prerelease == false and .draft == false)] | .[0]')
         LATEST_TAG=$(echo "${data}" | jq -r '.tag_name')
-        DOWNLOAD_URL=$(echo "${data}" | jq -r '.assets[].browser_download_url')
+    
+        # Filter for source download only, skipping beta or other files
+        DOWNLOAD_URL=$(echo "${data}" | jq -r '.assets[] | select(.name | test("source.*(zip|tar.gz)$")) | .browser_download_url')
+    
         VERSION_INFO=$(echo "${data}" | jq -r '.body')
         
         echo "${LATEST_TAG}" > ${LATEST_TAG}.txt
