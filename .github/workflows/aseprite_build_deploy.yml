@@ -102,8 +102,7 @@ jobs:
           curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-${{ runner.os }}-Release-X64.zip
           unzip Skia-${{ runner.os }}-Release-X64.zip -d skia
       - name: Download Aseprite release
-        run: |
-          # curl -o Aseprite-source.zip -L ${{ needs.check-version.outputs.download_url }}
+        run: |          
           curl -o Aseprite-source.zip -L https://github.com/aseprite/skia/archive/refs/tags/m102-861e4743af.zip
           unzip Aseprite-source.zip -d aseprite
           mkdir -p aseprite/build
