@@ -96,11 +96,11 @@ jobs:
       - name: Download Skia if not in cache
         if: steps.skia-cache.outputs.cache-hit != 'true'
         run: |        
-          curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-${{ runner.os }}-Release-X64.zip
+          curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-${{ runner.os }}-Release-X64.zip
           unzip Skia-${{ runner.os }}-Release-X64.zip -d skia
       - name: Download Aseprite release
         run: |          
-          curl -o Aseprite-source.zip -L https://github.com/aseprite/aseprite/releases/download/v1.3.13/Aseprite-v1.3.13-Source.zip
+          curl -o Aseprite-source.zip -L https://github.com/aseprite/aseprite/releases/download/v1.3.14-beta1/Aseprite-v1.3.14-beta1-Source.zip
           unzip Aseprite-source.zip -d aseprite
           mkdir -p aseprite/build
       - name: (Windows) Setting Visual Studio build environment variables and paths
